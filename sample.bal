@@ -6,9 +6,16 @@ type Greeting record {
     string message;
 };
 
+http:Client clientEP = check new("http://localhost:8080");
+
 service / on new http:Listener(8090) {
-    resource function get .(string name) returns Greeting {
-        Greeting greetingMessage = {"from" : "Choreo", "to" : name, "message" : "Welcome to Choreo!"};
+    resource function get .() returns Greeting|error? {
+        Greeting greetingMessage = {"from" : "Choreo", "to" : "name", "message" : "Welcome to Choreo!"};
+        http:Response res = check clientEP->get("choreo");
+
         return greetingMessage;
     }
+
+
 }
+
