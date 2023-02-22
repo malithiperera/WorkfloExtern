@@ -18,6 +18,12 @@ service / on new http:Listener(8090) {
        return res.getTextPayload();
     }
 
+    resource function post .(http:Caller caller, http:Request request) returns error? {
+        json res = check request.getJsonPayload();
+        io:println(res);
+        check caller->respond("Hello " + res.toString() + "!");
+    }
+
 
 }
 
