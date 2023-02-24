@@ -32,7 +32,7 @@ service / on new http:Listener(8090) {
         string userCredentials = "admin:admin";
         byte[] inputArr = userCredentials.toBytes();
         string encodedString = "Basic" + inputArr.toBase64();
-        map<string> headers = {"Content-Type": "application/json", "Basic": encodedString};
+        map<string> headers = {"Content-Type": "application/json", "Authorization": encodedString};
         http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", requestbody, headers);
 
         check caller->respond(res);
