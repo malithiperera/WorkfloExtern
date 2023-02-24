@@ -1,17 +1,16 @@
 import ballerina/http;
 import ballerina/io;
 
-http:Client clientEP = check new(" https://9731-2402-d000-a400-dd1e-c491-ee55-d21b-1959.in.ngrok.io");
-http:Client clientEPBPMN = check new(" https://1589-2402-d000-a400-dd1e-c491-ee55-d21b-1959.in.ngrok.io");
-
+http:Client clientEP = check new (" https://9731-2402-d000-a400-dd1e-c491-ee55-d21b-1959.in.ngrok.io");
+http:Client clientEPBPMN = check new (" https://1589-2402-d000-a400-dd1e-c491-ee55-d21b-1959.in.ngrok.io");
 
 service / on new http:Listener(8090) {
     resource function get .() returns string|error? {
-   
+
         http:Response res = check clientEP->get("/api/workflow/testmap");
         io:print(res);
-    
-       return res.getTextPayload();
+
+        return res.getTextPayload();
     }
 
     resource function post .(http:Caller caller, http:Request request) returns error? {
@@ -20,20 +19,24 @@ service / on new http:Listener(8090) {
         check caller->respond(res.toString());
     }
 
-     resource function get bpmndata() returns string|error? {
-   
+    resource function get bpmndata() returns string|error? {
+
         http:Response res = check clientEP->get("/api/workflow/testmap/see");
         io:print(res);
-    
-       return res.getTextPayload();
+
+        return res.getTextPayload();
     }
 
-     resource function post bpmndata(http:Caller caller, http:Request request) returns error? {
+    resource function post bpmndata(http:Caller caller, http:Request request) returns error? {
         json requestbody = check request.getJsonPayload();
+        string userCredentials = "admin:admin";
+        byte[] inputArr = userCredentials.toBytes();
+        string encodedString = "Basic" + inputArr.toBase64();
+        map<string> headers = {"Content-Type": "application/json", "Basic": encodedString};
+        http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", requestbody, headers);
 
-       http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", requestbody);
-       
         check caller->respond(res);
+      
     }
 }
 
@@ -52,8 +55,6 @@ service / on new http:Listener(8090) {
 //     } else {
 //         io:println(resp.detail().message);
 //     }
-    
+
 // }
-
-
 
