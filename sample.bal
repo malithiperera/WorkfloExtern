@@ -27,7 +27,7 @@ service / on new http:Listener(8090) {
         return res.getTextPayload();
     }
 
-    isolated resource function post bpmndata(http:Caller caller, http:Request request) returns error? {
+     resource function post bpmndata(http:Caller caller, http:Request request) returns error? {
         json requestbody = check request.getJsonPayload();
         string userCredentials = "admin:admin";
         byte[] inputArr = userCredentials.toBytes();
