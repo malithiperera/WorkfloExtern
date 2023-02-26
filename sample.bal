@@ -1,4 +1,5 @@
 import ballerina/http;
+import ballerina/url;
 import ballerina/io;
 
 http:Client clientEP = check new (" https://9731-2402-d000-a400-dd1e-c491-ee55-d21b-1959.in.ngrok.io");
@@ -31,8 +32,10 @@ service / on new http:Listener(8090) {
         json requestbody = check request.getJsonPayload();
         string userCredentials = "admin:admin";
         byte[] inputArr = userCredentials.toBytes();
-        string encodedString = "Basic" + inputArr.toBase64();
-        map<string> headers = {"Content-Type": "application/json", "Authorization": encodedString,"Content-Language": "en-US","Accept":"*/*"};
+        string encode=inputArr.toBase64();
+        string encodedString = check url:encode(encode, "UTF-8");
+        string encodedString1 = "Basic" + encodedString;
+        map<string> headers = {"Content-Type": "application/json", "Authorization": encodedString1,"Content-Language": "en-US","Accept":"*/*"};
         http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", requestbody, headers);
 
         check caller->respond(res);
