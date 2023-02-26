@@ -2,7 +2,7 @@ import ballerina/http;
 import ballerina/io;
 
 http:Client clientEP = check new (" https://9731-2402-d000-a400-dd1e-c491-ee55-d21b-1959.in.ngrok.io");
-http:Client clientEPBPMN = check new (" https://1589-2402-d000-a400-dd1e-c491-ee55-d21b-1959.in.ngrok.io");
+http:Client clientEPBPMN = check new (" https://354d-2402-d000-a400-e417-7037-7b8a-e81c-a0d8.in.ngrok.io");
 
 service / on new http:Listener(8090) {
     resource function get .() returns string|error? {
