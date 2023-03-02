@@ -1,9 +1,9 @@
 import ballerina/http;
 
 import ballerina/io;
-import ballerina/mime;
+//import ballerina/mime;
 
-http:Client clientEP = check new (" https://9731-2402-d000-a400-dd1e-c491-ee55-d21b-1959.in.ngrok.io");
+http:Client clientEP = check new ("https://9731-2402-d000-a400-dd1e-c491-ee55-d21b-1959.in.ngrok.io");
 http:Client clientEPBPMN = check new ("https://47f2-2402-d000-a500-8b95-555-9be0-e525-98b2.in.ngrok.io");
 
 service / on new http:Listener(8090) {
@@ -31,38 +31,33 @@ service / on new http:Listener(8090) {
 
      resource function post bpmndata(http:Caller caller, http:Request request) returns error? {
         json requestbody = check request.getJsonPayload();
-        // string userCredentials = "admin:admin";
-        // byte[] inputArr = userCredentials.toBytes();
-        // string encode=inputArr.toBase64();
-        // string encodedString = check url:encode(encode, "UTF-8");
-        // string encodedString1 = "Basic" + encodedString; 
-
-        string userCredentials = "admin:admin";
-    string basicAuth = "Basic " + <string>(check mime:base64Encode(userCredentials, "UTF-8"));
+    //  string userCredentials = "admin:admin";
+    // string basicAuth = "Basic " + <string>(check mime:base64Encode(userCredentials, "UTF-8"));
   
-        map<string> headers = {"Content-Type": "application/json", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
-        http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", requestbody, headers);
+    //     map<string> headers = {"Content-Type": "application/json", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
+    //     http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", requestbody, headers);
 
-        check caller->respond(res);
+        string var1 = requestbody.toString();
+        check caller->respond(var1);
       
     }
 }
 
-// public function soapRequest() {
+// public function main() returns error? {
 
-// soap:Soap12Client soapClient = new("http://localhost:9000/services");
-//     xml body = xml `<m0:getQuote xmlns:m0="http://services.samples">
-//                         <m0:request>
-//                             <m0:symbol>WSO2</m0:symbol>
-//                         </m0:request>
-//                     </m0:getQuote>`;
+// Soap12Client soapClient = check new("https://www.w3schools.com/xml/tempconvert.asmx");
 
-//     var resp = soapClient->sendReceive("/SimpleStockQuoteService", "urn:getQuote", body);
-//     if (resp is soap:SoapResponse) {
-//         io:println(resp);
+//     xml body = xml `<FahrenheitToCelsius xmlns="https://www.w3schools.com/xml/">
+
+//       <Fahrenheit>75</Fahrenheit>
+
+//     </FahrenheitToCelsius>`;
+
+//     var response = soapClient->sendReceive(body);
+//     if (response is SoapResponse) {
+//         io:println(response["payload"]);
 //     } else {
-//         io:println(resp.detail().message);
+//         io:println(response.message());
 //     }
-
 // }
 
