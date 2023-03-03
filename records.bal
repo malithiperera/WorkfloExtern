@@ -27,7 +27,7 @@ type ProcessRequest record {
     string uuid;
     string eventType?;
     string taskInitiator?;
-   Parameters[] parameters?;
+   Parameters parameters?;
 };
 
 
@@ -45,7 +45,7 @@ type Value record {
     string itemValue;
 };
 type Parameters record {
-    Parameter[] parameters;
+    Parameter[] 'parameter;
 };
 
 type variable record {
@@ -62,4 +62,13 @@ type variable record {
 type Camunda record{
    string[] variables;
 
+};
+
+
+
+//Response Type
+type Response record {
+    string status;
+    string taskDefinitionId;
+ 
 };

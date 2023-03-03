@@ -3,39 +3,37 @@ import ballerina/io;
 import ballerina/xmldata;
 
 
-public function main() returns error? {
+public function convertBPEL(json datajson) returns xml|error? {
 
-    json datajson={
-    "processDefinitionId": "b56ab75c-09fa-4e0b-9bac-fb0f8bf2378c",
-    "variables": [
-        {
-            "name": "REQUEST ID",
-            "value": "42ddbd60-4c90-4d8a-a234-153cc4406656"
-        },
-        {
-            "name": "Role Name",
-            "value": "seniorMqwww"
-        },
-        {
-            "name": "User Store Domain",
-            "value": "PRIMARY"
-        }
-    ]
-};
+//     json datajson={
+//     "processDefinitionId": "b56ab75c-09fa-4e0b-9bac-fb0f8bf2378c",
+//     "variables": [
+//         {
+//             "name": "REQUEST ID",
+//             "value": "42ddbd60-4c90-4d8a-a234-153cc4406656"
+//         },
+//         {
+//             "name": "Role Name",
+//             "value": "ResManager"
+//         },
+//         {
+//             "name": "User Store Domain",
+//             "value": "PRIMARY"
+//         }
+//     ]
+// };
 
 string uuid= check datajson.processDefinitionId;
 // Variable[] variable= check datajson.variables;
 
 
     // Creates an `Invoice` record.
-    ProcessRequest data = {
+   ProcessRequest data = {
         uuid: uuid,
         eventType:"ADD_ROLE",
         taskInitiator:"admin",
-        parameters:[
+        parameters: {'parameter: [
             {
-                parameters:[
-                    {
                         name:"roleName",
                         value:{
                             itemValue:"admin"
@@ -47,15 +45,15 @@ string uuid= check datajson.processDefinitionId;
                             itemValue:"admin"
                         }
                     }
-                ]
-            }
-        ]
+        ]}
       
     };
 
     // Converts a `record` representation to its XML representation.
     xml result = check xmldata:toXml(data);
     io:println(result);
+    return result;
+  
 }
 
 
