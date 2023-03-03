@@ -35,12 +35,12 @@ service / on new http:Listener(8090) {
     //bpmn endpoint 
      resource function post bpmndata(http:Caller caller, http:Request request) returns error? {
         json requestbody = check request.getJsonPayload();
-        json jsonData = check convertBPMN(requestbody);
+        // json jsonData = check convertBPMN(requestbody);
         string userCredentials = "admin:admin";
         string basicAuth = "Basic " + <string>(check mime:base64Encode(userCredentials, "UTF-8"));
   
         map<string> headers = {"Content-Type": "application/json", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
-        http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", jsonData, headers);
+        http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", requestbody, headers);
         check caller->respond(res);
       
     }
