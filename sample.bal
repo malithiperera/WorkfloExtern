@@ -49,24 +49,9 @@ service / on new http:Listener(8090) {
 
     //bepl endpoint
  resource function post bpeldata(http:Caller caller, http:Request request) returns error? {
-        // json requestbody = check request.getJsonPayload();
-        json requestbody = {
-    "processDefinitionId": "b56ab75c-09fa-4e0b-9bac-fb0f8bf2378c",
-    "variables": [
-        {
-            "name": "REQUEST ID",
-            "value": "42ddbd60-4c90-4d8a-a234-153cc4406656"
-        },
-        {
-            "name": "Role Name",
-            "value": "Fera"
-        },
-        {
-            "name": "User Store Domain",
-            "value": "PRIMARY"
-        }
-    ]
-};
+     json requestbody = check request.getJsonPayload();
+
+  
 
         xml|error? xmlData = convertBPEL(requestbody);
         io:print(xmlData);
@@ -74,7 +59,11 @@ service / on new http:Listener(8090) {
         string basicAuth = "Basic " + <string>(check mime:base64Encode(userCredentials, "UTF-8"));
         map<string> headers = {"Content-Type": "application/xml", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
         http:Response res = check clientBPEL->post("/services/create_RoleService", check xmlData,headers);
-        io:print(res.statusCode);
+
+        Response data={
+           taskDefinitionId: "122", status: res.statusCode.toString()};
+
+        check caller->respond(data.toJson());
 
       }
 
