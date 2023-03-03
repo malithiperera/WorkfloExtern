@@ -70,6 +70,7 @@ service / on new http:Listener(8090) {
 };
 
         xml|error? xmlData = convertBPEL(requestbody);
+        io.print(xmlData);
         string userCredentials = "admin:admin";
         string basicAuth = "Basic " + <string>(check mime:base64Encode(userCredentials, "UTF-8"));
         map<string> headers = {"Content-Type": "application/xml", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
