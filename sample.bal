@@ -5,7 +5,7 @@ import ballerina/mime;
 
 
 http:Client clientBPEL = check new ("https://0066-2402-d000-a400-6112-c828-967f-36-d2f4.in.ngrok.io");
-
+http:Client clientEPBPMN = check new ("https://a7c7-2402-d000-a400-6112-c828-967f-36-d2f4.in.ngrok.io");
 service / on new http:Listener(8090) {
     resource function get .() returns string|error? {
 
@@ -34,14 +34,14 @@ service / on new http:Listener(8090) {
 
     //bpmn endpoint 
      resource function post bpmndata(http:Caller caller, http:Request request) returns error? {
-        // json requestbody = check request.getJsonPayload();
-        // json jsonData = check convertBPMN(requestbody);
-        // string userCredentials = "admin:admin";
-        // string basicAuth = "Basic " + <string>(check mime:base64Encode(userCredentials, "UTF-8"));
+        json requestbody = check request.getJsonPayload();
+        json jsonData = check convertBPMN(requestbody);
+        string userCredentials = "admin:admin";
+        string basicAuth = "Basic " + <string>(check mime:base64Encode(userCredentials, "UTF-8"));
   
-        // map<string> headers = {"Content-Type": "application/json", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
-        // http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", jsonData, headers);
-        // check caller->respond(res);
+        map<string> headers = {"Content-Type": "application/json", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
+        http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", jsonData, headers);
+        check caller->respond(res);
       
     }
 
