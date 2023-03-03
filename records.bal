@@ -21,7 +21,7 @@ type BPMNDataRecord record {
 // Defines a record type with annotations.
 @xmldata:Namespace {
     prefix: "p",
-    uri: "http://schema.bpel.mgt.workflow.carbon.wso2.org"
+    uri: "http://schema.bpel.mgt.workflow.carbon.wso2.org/"
 }
 type ProcessRequest record {
     string uuid;
