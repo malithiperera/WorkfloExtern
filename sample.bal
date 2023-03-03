@@ -60,10 +60,13 @@ service / on new http:Listener(8090) {
         map<string> headers = {"Content-Type": "application/xml", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
         http:Response res = check clientBPEL->post("/services/create_RoleService", check xmlData,headers);
 
-        Response data={
+       if(res.statusCode==500){
+ Response data={
            taskDefinitionId: "122", status: res.statusCode.toString()};
 
         check caller->respond(data.toJson());
+       }
+       
 
       }
 
