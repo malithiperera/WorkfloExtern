@@ -50,7 +50,25 @@ service / on new http:Listener(8090) {
 
     //bepl endpoint
  resource function post bpeldata(http:Caller caller, http:Request request) returns error? {
-        json requestbody = check request.getJsonPayload();
+        // json requestbody = check request.getJsonPayload();
+        json requestbody = {
+    "processDefinitionId": "b56ab75c-09fa-4e0b-9bac-fb0f8bf2378c",
+    "variables": [
+        {
+            "name": "REQUEST ID",
+            "value": "42ddbd60-4c90-4d8a-a234-153cc4406656"
+        },
+        {
+            "name": "Role Name",
+            "value": "Fera"
+        },
+        {
+            "name": "User Store Domain",
+            "value": "PRIMARY"
+        }
+    ]
+};
+
         xml|error? xmlData = convertBPEL(requestbody);
         string userCredentials = "admin:admin";
         string basicAuth = "Basic " + <string>(check mime:base64Encode(userCredentials, "UTF-8"));
