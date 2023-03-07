@@ -4,7 +4,7 @@ import ballerina/io;
 import ballerina/mime;
 
 
-http:Client clientBPEL = check new ("https://0066-2402-d000-a400-6112-c828-967f-36-d2f4.in.ngrok.io");
+http:Client clientBPEL = check new ("https://85c4-2402-d000-a500-5cb5-8418-5942-19ae-85d8.in.ngrok.io");
 http:Client clientEPBPMN = check new ("https://a7c7-2402-d000-a400-6112-c828-967f-36-d2f4.in.ngrok.io");
 service / on new http:Listener(8090) {
     resource function get .() returns string|error? {
