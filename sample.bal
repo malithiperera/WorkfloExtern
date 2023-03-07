@@ -63,7 +63,8 @@ service / on new http:Listener(8090) {
         map<string> headers = {"Content-Type": "application/xml", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
         http:Response res = check clientBPEL->post("/services/create_RoleService", check xmlData,headers);
 
-        check caller->respond(res);
+Response response={statusCode:res.statusCode ,statusMessage:"created successfully"};
+        check caller->respond(response);
 
       }
 

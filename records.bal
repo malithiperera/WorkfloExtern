@@ -68,7 +68,7 @@ type Camunda record{
 
 //Response Type
 type Response record {
-    string status;
-    string taskDefinitionId;
+    int statusCode;
+    string statusMessage;
  
 };
