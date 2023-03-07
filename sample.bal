@@ -49,7 +49,8 @@ service / on new http:Listener(8090) {
 
     //bepl endpoint
  resource function post bpeldata(http:Caller caller, http:Request request) returns error? {
-     json requestbody = check request.getJsonPayload();
+    io:print("bpeldata");
+    // json requestbody = check request.getJsonPayload();
 
   
 
@@ -72,18 +73,13 @@ service / on new http:Listener(8090) {
         </parameter>
     </parameters>
 </p:ProcessRequest>`;
+
         string userCredentials = "admin:admin";
         string basicAuth = "Basic " + <string>(check mime:base64Encode(userCredentials, "UTF-8"));
         map<string> headers = {"Content-Type": "application/xml", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
-        http:Response res = check clientBPEL->post("/services/create_RoleService", check xmlData,headers);
+        http:Response res = check clientBPEL->post("/services/create_RoleService", xmlData,headers);
 
-       if(res.statusCode==500){
- Response data={
-           taskDefinitionId: "122", status: res.statusCode.toString()};
-
-        check caller->respond(data.toJson());
-       }
-       
+        check caller->respond(res);
 
       }
 
