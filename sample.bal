@@ -53,8 +53,25 @@ service / on new http:Listener(8090) {
 
   
 
-        xml|error? xmlData = convertBPEL(requestbody);
-        io:print(xmlData);
+        // xml|error? xmlData = convertBPEL(requestbody);
+        // io:print(xmlData);
+      xml xmlData=xml `<p:ProcessRequest xmlns:p="http://schema.bpel.mgt.workflow.carbon.wso2.org/">
+    <uuid>b56ab75c-09fa-4e0b-9bac-fb0f8bf2378c</uuid>
+    <eventType>ADD_ROLE</eventType>
+    <taskInitiator>admin</taskInitiator>
+    <parameters>
+        <parameter name="roleName">
+            <value>
+                <itemValue>admin</itemValue>
+            </value>
+        </parameter>
+        <parameter name="users">
+            <value>
+                <itemValue>admin</itemValue>
+            </value>
+        </parameter>
+    </parameters>
+</p:ProcessRequest>`;
         string userCredentials = "admin:admin";
         string basicAuth = "Basic " + <string>(check mime:base64Encode(userCredentials, "UTF-8"));
         map<string> headers = {"Content-Type": "application/xml", "Authorization": basicAuth,"Content-Language": "en-US","Accept":"*/*"};
