@@ -19,6 +19,10 @@ type BPMNDataRecord record {
 
 //BPEL Records
 // Defines a record type with annotations.
+
+type VariableRecord record {| string name; string value; |};
+
+
 @xmldata:Namespace {
     prefix: "p",
     uri: "http://schema.bpel.mgt.workflow.carbon.wso2.org/"
@@ -54,7 +58,10 @@ type variable record {
 };
 
 
-
+type BPELReturn record {
+    string url ?;
+   xml beplRequestbody ?;
+};
 
 
 
@@ -69,6 +76,8 @@ type Camunda record{
 //Response Type
 type Response record {
     int statusCode;
-    string statusMessage;
+    string statusMessage ?;
  
 };
+
+
