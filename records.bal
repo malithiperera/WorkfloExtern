@@ -1,27 +1,26 @@
 import ballerina/xmldata;
 
-
-
 //BPMN Records
 type Variable record {
     string name;
     string|int value;
-   
+
 };
+
 type BPMNDataRecord record {
     string processDefinitionId;
-    string  businessKey="myBusinessKey";
+    string businessKey = "myBusinessKey";
     Variable[] variables;
-    
+
 };
-
-
 
 //BPEL Records
 // Defines a record type with annotations.
 
-type VariableRecord record {| string name; string value; |};
-
+type VariableRecord record {|
+    string name;
+    string value;
+|};
 
 @xmldata:Namespace {
     prefix: "p",
@@ -31,9 +30,8 @@ type ProcessRequest record {
     string uuid;
     string eventType?;
     string taskInitiator?;
-   Parameters parameters?;
+    Parameters parameters?;
 };
-
 
 type Item record {
     string itemCode;
@@ -41,13 +39,15 @@ type Item record {
 };
 
 type Parameter record {
-      @xmldata:Attribute
+    @xmldata:Attribute
     string name?;
     Value value;
 };
+
 type Value record {
     string itemValue;
 };
+
 type Parameters record {
     Parameter[] 'parameter;
 };
@@ -57,27 +57,21 @@ type variable record {
     string value;
 };
 
-
 type BPELReturn record {
-    string url ?;
-   xml beplRequestbody ?;
+    string url?;
+    xml beplRequestbody?;
 };
-
-
 
 //Camunda Records
-type Camunda record{
-   string[] variables;
+type Camunda record {
+    string[] variables;
 
 };
-
-
 
 //Response Type
 type Response record {
     int statusCode;
-    string statusMessage ?;
- 
-};
+    string statusMessage?;
 
+};
 

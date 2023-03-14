@@ -1,7 +1,5 @@
 import ballerina/http;
-
 import ballerina/mime;
-
 
 http:Client clientBPEL = check new (BPEL_ENGINE_URL);
 http:Client clientEPBPMN = check new (BPMN_ENGINE_URL);
@@ -39,9 +37,9 @@ service / on new http:Listener(LISTINING_PORT) {
 public function BPELFunction(json requstbody) returns json|error? {
 
     BPELReturn bpelReturn = check convertBPEL(requstbody) ?: {};
-    string basicAuth = BASIC_AUTH_TYPE + <string>(check mime:base64Encode(USER_CREDENTIALS, STANDARD_CHARSET));
-   
-    map<string> headers = {"Content-Type": APPLICATION_XML, "Authorization": basicAuth};
+    string basicAuth = BASIC_AUTH_TYPE + <string>(check mime:base64Encode(USER_CREDENTIALS, mime:DEFAULT_CHARSET));
+
+    map<string> headers = {"Content-Type": mime:APPLICATION_XML, "Authorization": basicAuth};
     http:Response res = check clientBPEL->post(<string>bpelReturn.url, bpelReturn.beplRequestbody, headers);
 
     Response response = {statusCode: res.statusCode};
@@ -56,10 +54,10 @@ public function BPELFunction(json requstbody) returns json|error? {
 public function BPMNFunction(json requestbody) returns json|error? {
 
     // json jsonData = check convertBPMN(requestbody);
-   
-    string basicAuth = BASIC_AUTH_TYPE + <string>(check mime:base64Encode(USER_CREDENTIALS, STANDARD_CHARSET));
 
-        map<string> headers = {"Content-Type": APPLICATION_JSON, "Authorization": basicAuth};
+    string basicAuth = BASIC_AUTH_TYPE + <string>(check mime:base64Encode(USER_CREDENTIALS, mime:DEFAULT_CHARSET));
+
+    map<string> headers = {"Content-Type": mime:APPLICATION_JSON, "Authorization": basicAuth};
     http:Response res = check clientEPBPMN->post("/bpmn/runtime/process-instances/", requestbody, headers);
     Response response = {statusCode: res.statusCode};
     return response.toJson();
