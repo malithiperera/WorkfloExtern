@@ -37,7 +37,7 @@ public function convertBPEL(json datajson) returns BPELReturn|error? {
 
     };
 
-    string bpelServiceUrl = "/services/" + eventType + "Service";
+    string bpelServiceUrl = "services/create_RoleService";
     // Converts a `record` representation to its XML representation.
     xml result = check xmldata:toXml(data);
     BPELReturn bpelReturn = {beplRequestbody: result, url: bpelServiceUrl};
