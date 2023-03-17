@@ -2,6 +2,7 @@ import ballerina/xmldata;
 
 public function convertBPEL(json datajson) returns BPELReturn|error? {
 
+
     string uuid = check datajson.processDefinitionId;
     string eventType = "";
     string taskInitiator = "";
@@ -37,10 +38,10 @@ public function convertBPEL(json datajson) returns BPELReturn|error? {
 
     };
 
-    string bpelServiceUrl = "services/create_RoleService";
+   
     // Converts a `record` representation to its XML representation.
     xml result = check xmldata:toXml(data);
-    BPELReturn bpelReturn = {beplRequestbody: result, url: bpelServiceUrl};
+    BPELReturn bpelReturn = {beplRequestbody: result, url: WORKFLOW_URL};
     return bpelReturn;
 
 }
