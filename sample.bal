@@ -43,7 +43,7 @@ public function BPELFunction(json requstbody) returns json|error? {
     string basicAuth = BASIC_AUTH_TYPE + <string>(check mime:base64Encode(USER_CREDENTIALS, mime:DEFAULT_CHARSET));
 
     map<string> headers = {"Content-Type": mime:APPLICATION_XML, "Authorization": basicAuth};
-    http:Response res = check clientBPEL->post(<string>bpelReturn.url, bpelReturn.beplRequestbody, headers);
+    http:Response res = check clientBPEL->post(BPEL_ENGINE_URL, bpelReturn.beplRequestbody, headers);
 
     Response response = {statusCode: res.statusCode};
     return response.toJson();
