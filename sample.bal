@@ -38,7 +38,7 @@ service / on new http:Listener(LISTINING_PORT) {
     // }
     resource function post CamundaCall(http:Caller caller, http:Request request) returns error? {
         json datajson = check request.getJsonPayload();
-        json responsePayload = check BPELFunction(datajson);
+        json responsePayload = check CamundaFunction(datajson);
             check caller->respond(responsePayload.toString());
       
 
