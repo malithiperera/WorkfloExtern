@@ -62,11 +62,7 @@ type BPELReturn record {
     xml beplRequestbody?;
 };
 
-//Camunda Records
-type Camunda record {
-    string[] variables;
 
-};
 
 //Response Type
 type Response record {
@@ -75,3 +71,16 @@ type Response record {
 
 };
 
+//Camunda Records
+type CamundaVaribles record {
+    string[] variables;
+
+};
+
+type CamundaName record {
+    string name;
+};
+type CamundaValue record {
+    json value;
+};
+ 

@@ -1,9 +1,10 @@
 import ballerina/http;
-import ballerina/mime;
+ import ballerina/mime;
+import ballerina/io;
 
 http:Client clientBPEL = check new (BPEL_ENGINE_URL);
 http:Client clientEPBPMN = check new (BPMN_ENGINE_URL);
-
+http:Client clientCamunda = check new (CAMUNDA_ENGINE_URL);
 service / on new http:Listener(LISTINING_PORT) {
     resource function get .(http:Caller caller) returns error? {
 
@@ -28,6 +29,34 @@ service / on new http:Listener(LISTINING_PORT) {
             check caller->respond(error("Invalid BPS Engine"));
         }
     }
+    
+    resource function post CallbackEndPoint(http:Caller caller, http:Request request) returns error? {
+
+        json callbackPayload = check request.getJsonPayload();
+        
+        
+    }
+   resource function post CamundaCall () {
+    json jsonContent = {
+    "variables": {
+        "processDefinitionId": {
+            "value": "b56ab75c-09fa-4e0b-9bac-fb0f8bf2378c"
+        },
+        "roleName": {
+            "value": "Senior Manager"
+        }
+    }
+};
+
+//  string basicAuth = BASIC_AUTH_TYPE + <string>(check mime:base64Encode(USER_CREDENTIALS, mime:DEFAULT_CHARSET));
+
+//     map<string> headers = {"Content-Type": mime:APPLICATION_JSON, "Authorization": basicAuth};
+    http:Response|http:ClientError res =  clientCamunda->post("/Process_1ujkwkn:2:d4125373-c7a7-11ed-a4b7-9e29762f7844/start", jsonContent);
+    if (res is http:Response) {
+        io:println(res.statusCode);
+    } 
+    
+   }
 }
 
 # Description
@@ -66,3 +95,4 @@ public function BPMNFunction(json requestbody) returns json|error? {
     return response.toJson();
 }
 
+    
