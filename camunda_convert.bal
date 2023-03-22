@@ -1,37 +1,46 @@
 
+type InputTypeVariable record {
+    string name;
+    string value;
+};
 
-// public function convertCamunda(json datajson) returns CamundaVaribles|error? {
+type InputType record {
+    string processDefinitionId;
+    InputTypeVariable[] variables;
+};
 
-//  string uuid = check datajson.processDefinitionId;
-// json[] variableArrayJson = check datajson.variables.ensureType();
-//  VariableRecord[] outputArray = [];
-//     foreach json variable in variableArrayJson {
-//         VariableRecord i = check variable.cloneWithType(VariableRecord);
-      
-        
-//             outputArray.push(i);
-//             // parameterArray.push({name: i.name, value: {itemValue: i.value}});
+type OutputTypeVariable record {
+    string value;
+};
 
-        
+type OutputType record {
+    map<OutputTypeVariable> variables;
+};
 
-//     }
+public function CamundaConvert(json input) returns error|OutputType {
 
-//     }
+    string uuid = check input.processDefinitionId;
 
-//     // Creates an `ProcessRequest` record.
-// //     ProcessRequest data = {
-// //         uuid: uuid,
-// //         eventType: eventType,
-// //         taskInitiator: taskInitiator,
-// //         parameters: {'parameter: parameterArray}
+    InputType inputRecord = check input.cloneWithType(InputType);
+    OutputType outputType = {
+        variables: {}
+    };
+    outputType.variables["processDefinitionId"] = {
+        value: uuid
+    };
+    foreach InputTypeVariable inputVariable in inputRecord.variables {
+        if (inputVariable.name == "Role Name") {
+            outputType.variables["roleName"] = {
+                value: inputVariable.value
+            };
+        }
+        // else{
+        //      outputType.variables[inputVariable.name] = {
+        //     value: inputVariable.value
+        // };
+        // }
 
-// //     };
+    }
 
-   
-// //     // Converts a `record` representation to its XML representation.
-// //     xml result = check xmldata:toXml(data);
-// //     BPELReturn bpelReturn = {beplRequestbody: result, url: WORKFLOW_URL};
-// //     return bpelReturn;
-
-// // }
-
+    return outputType;
+}
