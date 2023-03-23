@@ -72,15 +72,21 @@ type Response record {
 };
 
 //Camunda Records
-type CamundaVaribles record {
-    string[] variables;
 
-};
-
-type CamundaName record {
+type CamundaInputTypeVariable record {
     string name;
+    string value;
 };
-type CamundaValue record {
-    json value;
+
+type CamundaInputType record {
+    string processDefinitionId;
+    CamundaInputTypeVariable[] variables;
 };
- 
+
+type CamundaOutputTypeVariable record {
+    string value;
+};
+
+type CamundaOutputType record {
+    map<CamundaOutputTypeVariable> variables;
+};

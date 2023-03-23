@@ -1,34 +1,20 @@
 
-type InputTypeVariable record {
-    string name;
-    string value;
-};
-
-type InputType record {
-    string processDefinitionId;
-    InputTypeVariable[] variables;
-};
-
-type OutputTypeVariable record {
-    string value;
-};
-
-type OutputType record {
-    map<OutputTypeVariable> variables;
-};
-
-public function CamundaConvert(json input) returns error|OutputType {
+# Description
+# the requrst json payload converts the data format whih except from camunda engine
+# + input - json data format. 
+# + return -requset type json data format.
+public function CamundaConvert(json input) returns error|CamundaOutputType {
 
     string uuid = check input.processDefinitionId;
 
-    InputType inputRecord = check input.cloneWithType(InputType);
-    OutputType outputType = {
+    CamundaInputType inputRecord = check input.cloneWithType(CamundaInputType);
+    CamundaOutputType outputType = {
         variables: {}
     };
     outputType.variables["processDefinitionId"] = {
         value: uuid
     };
-    foreach InputTypeVariable inputVariable in inputRecord.variables {
+    foreach CamundaInputTypeVariable inputVariable in inputRecord.variables {
         if (inputVariable.name == "Role Name") {
             outputType.variables["roleName"] = {
                 value: inputVariable.value

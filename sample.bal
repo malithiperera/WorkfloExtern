@@ -14,20 +14,21 @@ service / on new http:Listener(LISTINING_PORT) {
     resource function post .(http:Caller caller, http:Request request) returns error? {
 
         json requestWorkflowPayload = check request.getJsonPayload();
-        string bpsEngine = check requestWorkflowPayload.bpsEngine;
-        if (bpsEngine == BPEL_ENGINE) {
-            json responsePayload = check BPELFunction(requestWorkflowPayload);
-            check caller->respond(responsePayload.toString());
 
-        }
-        else if (bpsEngine == BPMN_ENGINE) {
-            json responsePayload = check BPMNFunction(requestWorkflowPayload);
-            check caller->respond(responsePayload.toString());
+        json responsePayload = check CamundaFunction(requestWorkflowPayload);
+        check caller->respond(responsePayload.toString());
+        // string bpsEngine = check requestWorkflowPayload.bpsEngine;
+        // if (bpsEngine == BPEL_ENGINE) {
+        //     json responsePayload = check BPELFunction(requestWorkflowPayload);
+        //     check caller->respond(responsePayload.toString());
 
-        }
-        else {
-            check caller->respond(error("Invalid BPS Engine"));
-        }
+        // }
+        // else if (bpsEngine == BPMN_ENGINE) {
+        //     json responsePayload = check BPMNFunction(requestWorkflowPayload);
+        //     check caller->respond(responsePayload.toString());
+
+        // }
+
     }
 
     // resource function post CallbackEndPoint(http:Caller caller, http:Request request) returns error? {
@@ -35,12 +36,7 @@ service / on new http:Listener(LISTINING_PORT) {
     //    // json callbackPayload = check request.getJsonPayload();
 
     // }
-    resource function post CamundaCall(http:Caller caller, http:Request request) returns error? {
-        json datajson = check request.getJsonPayload();
-        json responsePayload = check CamundaFunction(datajson);
-        check caller->respond(responsePayload.toString());
 
-    }
 }
 
 # Description
@@ -61,6 +57,17 @@ public function BPELFunction(json requstbody) returns json|error? {
 }
 
 # Description
+# Camunda workflow requset crate function
+# + datajson - Workflow request payload in json format
+# + return -  return the status code of the workflow request
+public function CamundaFunction(json datajson) returns json|error? {
+
+    CamundaOutputType camundaPayload = check CamundaConvert(datajson);
+    http:Response res = check clientCamunda->post("/" + CAMUNDA_PROCESS_DEFINITION_ID + "/start", camundaPayload, {});
+    return res.statusCode.toString();
+}
+
+# Description
 #
 # + requestbody - Parameter Description
 # + return - Return Value Description
@@ -76,13 +83,4 @@ public function BPMNFunction(json requestbody) returns json|error? {
     return response.toJson();
 }
 
-public function CamundaFunction(json datajson) returns json|error? {
-    OutputType camundaPayload = check CamundaConvert(datajson);
-
-    //  string basicAuth = BASIC_AUTH_TYPE + <string>(check mime:base64Encode(USER_CREDENTIALS, mime:DEFAULT_CHARSET));
-
-    //     map<string> headers = {"Content-Type": mime:APPLICATION_JSON, "Authorization": basicAuth};
-    http:Response res = check clientCamunda->post("/" + CAMUNDA_PROCESS_DEFINITION_ID + "/start", camundaPayload, {});
-    return res.statusCode.toString();
-}
 
