@@ -15,11 +15,11 @@ public function CamundaConvert(json input) returns error|CamundaOutputType {
         value: uuid
     };
     foreach CamundaInputTypeVariable inputVariable in inputRecord.variables {
-       
-            outputType.variables["Username"] = {
+        if (inputVariable.name == "Username") {
+            outputType.variables[inputVariable.name] = {
                 value: inputVariable.value
             };
-        
+        }
         // else{
         //      outputType.variables[inputVariable.name] = {
         //     value: inputVariable.value
