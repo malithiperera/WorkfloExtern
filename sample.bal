@@ -38,10 +38,13 @@ service / on new http:Listener(LISTINING_PORT) {
         json callbackPayload = check request.getJsonPayload();
         Callback inputRecord = check callbackPayload.cloneWithType(Callback);
         string processuuid= inputRecord.processDefinitionId;
+        json payload={
+            "status":inputRecord.status 
+        };
         string basicAuth = BASIC_AUTH_TYPE + <string>(check mime:base64Encode(USER_CREDENTIALS, mime:DEFAULT_CHARSET));
 
         map<string> headers = {"Content-Type": mime:APPLICATION_JSON, "Authorization": basicAuth};
-        http:Response res = check CallbackIS->patch(processuuid, {"status":inputRecord.status}, headers);
+        http:Response res = check CallbackIS->patch(processuuid, payload, headers);
         Response response = {statusCode: res.statusCode};
          check caller->respond(response.statusCode);
 
