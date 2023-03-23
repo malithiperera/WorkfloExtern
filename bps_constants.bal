@@ -6,5 +6,5 @@ final string WORKFLOW_URL= "/services/create_RoleService";
 final string CALLBACK_END_POINT = "http://localhost:9763/api/server/v1/workflow/";
 
 
-final string BPEL_ENGINE_URL="";
-final string BPMN_ENGINE_URL="";
+final string BPEL_ENGINE_URL = "http://localhost:9763/api/server/v1/workflow/";
+final string BPMN_ENGINE_URL = "http://localhost:9763/api/server/v1/workflow/";
