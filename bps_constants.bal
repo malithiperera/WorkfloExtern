@@ -4,4 +4,3 @@ final int LISTINING_PORT = 8090;
 final string USER_CREDENTIALS = "admin:admin";
 final string BASIC_AUTH_TYPE = "Basic";
 final string WORKFLOW_URL= "/services/create_RoleService";
-
