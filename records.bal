@@ -90,3 +90,12 @@ type CamundaOutputTypeVariable record {
 type CamundaOutputType record {
     map<CamundaOutputTypeVariable> variables;
 };
+
+
+//callback record
+
+type Callback record {
+    string processDefinitionId;
+    string status;
+    
+};
