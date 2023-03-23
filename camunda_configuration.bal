@@ -1,2 +1,0 @@
-final string CAMUNDA_ENGINE_URL = "https://2f85-2402-d000-a400-4738-797b-e76f-21ac-b1f9.in.ngrok.io/engine-rest/process-definition";
-final  string CAMUNDA_PROCESS_DEFINITION_ID = "Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844";
