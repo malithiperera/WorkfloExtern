@@ -40,9 +40,8 @@ service / on new http:Listener(LISTINING_PORT) {
         json payload = {
             "status": inputRecord.status
         };
-        string basicAuth = BASIC_AUTH_TYPE + <string>(check mime:base64Encode(USER_CREDENTIALS, mime:DEFAULT_CHARSET));
 
-        map<string> headers = {"Content-Type": mime:APPLICATION_JSON, "Authorization": basicAuth};
+        map<string> headers = {"Content-Type": mime:APPLICATION_JSON};
         http:Response res = check CallbackIS->patch(processuuid, payload, headers);
         Response response = {statusCode: res.statusCode};
         check caller->respond(response.statusCode);
