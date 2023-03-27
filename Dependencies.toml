@@ -256,7 +256,7 @@ dependencies = [
 [[package]]
 org = "ballerina"
 name = "time"
-version = "2.2.3"
+version = "2.2.4"
 dependencies = [
 	{org = "ballerina", name = "jballerina.java"}
 ]
@@ -281,13 +281,26 @@ modules = [
 ]
 
 [[package]]
+org = "ballerinai"
+name = "observe"
+version = "0.0.0"
+dependencies = [
+	{org = "ballerina", name = "jballerina.java"},
+	{org = "ballerina", name = "observe"}
+]
+modules = [
+	{org = "ballerinai", packageName = "observe", moduleName = "observe"}
+]
+
+[[package]]
 org = "malithiinternproject"
 name = "workflowextern_nq"
 version = "3.1.0"
 dependencies = [
 	{org = "ballerina", name = "http"},
 	{org = "ballerina", name = "mime"},
-	{org = "ballerina", name = "xmldata"}
+	{org = "ballerina", name = "xmldata"},
+	{org = "ballerinai", name = "observe"}
 ]
 modules = [
 	{org = "malithiinternproject", packageName = "workflowextern_nq", moduleName = "workflowextern_nq"}
