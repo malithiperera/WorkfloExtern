@@ -27,11 +27,11 @@ type CamundaConfig record {|
    
 
 |};
-type CamundaWorkflow record {|
- DefinitionID[] DEFINITION_IDS;
-|};
+// type CamundaWorkflow record {|
+//  DefinitionID[] DEFINITION_IDS;
+// |};
 configurable CamundaConfig camundaconfig = ?;
-configurable CamundaWorkflow camundaID =?;
+//onfigurable CamundaWorkflow camundaID =?;
 
 
 distinct service class CamundaService {
@@ -40,12 +40,12 @@ distinct service class CamundaService {
 
     private string engineURL;
 
-    private DefinitionID[] definitionIDs;
+    //private DefinitionID[] definitionIDs;
 
     function init() {
         self.engineURL = camundaconfig.CAMUNDA_ENGINE_URL;
 
-        self.definitionIDs = camundaID.DEFINITION_IDS;
+      //  self.definitionIDs = camundaID.DEFINITION_IDS;
     }
 
     # Description
@@ -53,18 +53,18 @@ distinct service class CamundaService {
     # + workflowRequestType - Parameter Description
     # + return - Return Value Description
     public function workflowInitializer(WorkflowRequestType workflowRequestType) returns any?|error {
-        string evenType = workflowRequestType.eventType;
-        string workflowDefinitionID = "";
-        foreach var item in self.definitionIDs {
-            if (item["evenetType"] == evenType) {
-                workflowDefinitionID = item["ID"];
-                break;
-            }
+        //string evenType = workflowRequestType.eventType;
+        //string workflowDefinitionID = "ADD_USER";
+        // foreach var item in self.definitionIDs {
+        //     if (item["evenetType"] == evenType) {
+        //         workflowDefinitionID = item["ID"];
+        //         break;
+        //     }
 
-        }
+        // }
         http:Client clientCamunda = check new (self.engineURL);
         CamundaOutputType camundaPayload = check self.CamundaConvert(workflowRequestType);
-        http:Response res = check clientCamunda->post("/" + workflowDefinitionID + "/start", camundaPayload, {});
+        http:Response res = check clientCamunda->post("/" + "Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844" + "/start", camundaPayload, {});
         return res.statusCode;
 
     }
