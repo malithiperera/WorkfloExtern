@@ -24,7 +24,7 @@ type DefinitionID record {
 type CamundaConfig record {|
     string CAMUNDA_ENGINE_URL;
     
-    DefinitionID[] DEFINITION_IDS;
+    DefinitionID[] DEFINITION_IDS=[];
 
 |};
 
