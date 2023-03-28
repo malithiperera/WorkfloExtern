@@ -30,6 +30,7 @@ type CamundaConfig record {|
 
 configurable CamundaConfig camundaconfig = ?;
 
+
 distinct service class CamundaService {
 
     *BPSProfile;
