@@ -31,9 +31,9 @@ distinct service class BPMNService{
         return;
     }
 
-    public function workflowInitializer(json requestPayload) returns any|error {
+    public function workflowInitializer(WorkflowRequestType workflowRequestType) returns any|error {
         http:Client clientEPBPMN = check new (self.BPMN_ENGINE_URL);
-        json bpmnPayload = check self.BPMNConvert(requestPayload);
+        json bpmnPayload = check self.BPMNConvert(workflowRequestType);
 
         string basicAuth =bpmnConfig. BASIC_AUTH_TYPE + <string>(check mime:base64Encode(bpmnConfig.USER_CREDENTIALS, mime:DEFAULT_CHARSET));
 
@@ -42,8 +42,8 @@ distinct service class BPMNService{
         
         return res.statusCode;
     }
-    private function BPMNConvert(json requestbody) returns json|error {
-           BPMNDataRecord bpmnPayload = check requestbody.cloneWithType(BPMNDataRecord);
+    private function BPMNConvert(WorkflowRequestType workflowRequestType) returns json|error {
+           BPMNDataRecord bpmnPayload = check workflowRequestType.cloneWithType(BPMNDataRecord);
         json jsonData = bpmnPayload.toJson();
         return jsonData;
         

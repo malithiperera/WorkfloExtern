@@ -70,8 +70,8 @@ distinct service class BPELService{
         return;
     }
 
-    public function workflowInitializer(json requestPayload) returns any|error {
-         BPELReturn bpelReturn = check self.ConvertBPEL(requestPayload);
+    public function workflowInitializer(WorkflowRequestType workflowRequestType) returns any|error {
+         BPELReturn bpelReturn = check self.ConvertBPEL(workflowRequestType);
         string basicAuth = bpelconfig.BASIC_AUTH_TYPE + <string>(check mime:base64Encode(bpelconfig.USER_CREDENTIALS, mime:DEFAULT_CHARSET));
         http:Client clientBPEL = check new (bpelconfig.BPEL_ENGINE_URL);
         map<string> headers = {"Content-Type": mime:APPLICATION_XML, "Authorization": basicAuth};
@@ -82,12 +82,12 @@ distinct service class BPELService{
 
         
     }
-    private function ConvertBPEL(json datajson) returns BPELReturn|error {
-         string uuid = check datajson.processDefinitionId;
+    private function ConvertBPEL(WorkflowRequestType workflowRequestType) returns BPELReturn|error {
+         string uuid = workflowRequestType.processDefinitionId;
         string eventType = "";
         string taskInitiator = "";
 
-        json[] variableArrayJson = check datajson.variables.ensureType();
+        json[] variableArrayJson = check workflowRequestType.variables.ensureType();
         VariableRecord[] outputArray = [];
         Parameter[] parameterArray = [];
 

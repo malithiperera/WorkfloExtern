@@ -1,14 +1,11 @@
+
 import ballerina/http;
+
 //Camunda Records
 
 type CamundaInputTypeVariable record {
     string name;
     string value;
-};
-
-type CamundaInputType record {
-    string processDefinitionId;
-    CamundaInputTypeVariable[] variables;
 };
 
 type CamundaOutputTypeVariable record {
@@ -19,53 +16,70 @@ type CamundaOutputType record {
     map<CamundaOutputTypeVariable> variables;
 };
 
+type DefinitionID record {
+    string evenetType?;
+    string ID;
+};
+
 type CamundaConfig record {|
     string CAMUNDA_ENGINE_URL;
-    string CAMUNDA_PROCESS_DEFINITION_ID;
+
+    DefinitionID[] DEFINITION_IDS;
+
 |};
+
 configurable CamundaConfig camundaconfig = ?;
+
 distinct service class CamundaService {
-    // This denotes that this object implements the `Profile` interface.
+
     *BPSProfile;
 
     private string engineURL;
-    private string processDefinitionID;
+
+    private DefinitionID[] definitionIDs;
 
     function init() {
         self.engineURL = camundaconfig.CAMUNDA_ENGINE_URL;
-        self.processDefinitionID = camundaconfig.CAMUNDA_PROCESS_DEFINITION_ID;
-    }
 
-   
+        self.definitionIDs = camundaconfig.DEFINITION_IDS;
+    }
 
     # Description
     #
-    # + requestPayload - Parameter Description
+    # + workflowRequestType - Parameter Description
     # + return - Return Value Description
-   public function workflowInitializer(json requestPayload) returns any ?|error {
-         http:Client clientCamunda =  check new (self.engineURL);
-        CamundaOutputType camundaPayload =  check self.CamundaConvert(requestPayload);
-        http:Response res = check clientCamunda->post("/" + self.processDefinitionID + "/start", camundaPayload, {});
-        return res.statusCode.toString();
-      
+    public function workflowInitializer(WorkflowRequestType workflowRequestType) returns any?|error {
+        string evenType = workflowRequestType.eventType;
+        string workflowDefinitionID = "";
+        foreach var item in self.definitionIDs {
+            if (item["evenetType"] == evenType) {
+                workflowDefinitionID = item["ID"];
+                break;
+            }
+
+        }
+        http:Client clientCamunda = check new (self.engineURL);
+        CamundaOutputType camundaPayload = check self.CamundaConvert(workflowRequestType);
+        http:Response res = check clientCamunda->post("/" + workflowDefinitionID + "/start", camundaPayload, {});
+        return res.statusCode;
+
     }
     # Description
     # the requrst json payload converts the data format whih except from camunda engine
-    # + input - json data format. 
+    # + workflowRequestType - json data format. 
     # + return - requset type json data format.
-    # 
-    private isolated function CamundaConvert(json input) returns error|CamundaOutputType {
+    #
+    private isolated function CamundaConvert(WorkflowRequestType workflowRequestType) returns error|CamundaOutputType {
 
-        string uuid = check input.processDefinitionId;
+        string uuid = workflowRequestType.processDefinitionId;
 
-        CamundaInputType inputRecord = check input.cloneWithType(CamundaInputType);
         CamundaOutputType outputType = {
             variables: {}
         };
         outputType.variables["processDefinitionId"] = {
             value: uuid
         };
-        foreach CamundaInputTypeVariable inputVariable in inputRecord.variables {
+        foreach CamundaInputTypeVariable inputVariable in workflowRequestType.variables {
             if (inputVariable.name == "Username") {
                 outputType.variables[inputVariable.name] = {
                     value: inputVariable.value
@@ -75,7 +89,7 @@ distinct service class CamundaService {
         }
         return outputType;
     }
-     public function callbackProcessHandler() {
+    public function callbackProcessHandler() {
         return;
     }
 }
