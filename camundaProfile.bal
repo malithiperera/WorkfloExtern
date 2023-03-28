@@ -27,12 +27,9 @@ type CamundaConfig record {|
    
 
 |};
-// type CamundaWorkflow record {|
-//  DefinitionID[] DEFINITION_IDS;
-// |};
-configurable CamundaConfig camundaconfig = ?;
-//onfigurable CamundaWorkflow camundaID =?;
 
+configurable CamundaConfig camundaconfig = ?;
+configurable DefinitionID[] camundaID =?;
 
 distinct service class CamundaService {
 
@@ -40,12 +37,12 @@ distinct service class CamundaService {
 
     private string engineURL;
 
-    //private DefinitionID[] definitionIDs;
+    private DefinitionID[] definitionIDs;
 
     function init() {
         self.engineURL = camundaconfig.CAMUNDA_ENGINE_URL;
 
-      //  self.definitionIDs = camundaID.DEFINITION_IDS;
+        self.definitionIDs = camundaID;
     }
 
     # Description
