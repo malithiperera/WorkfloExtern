@@ -1,17 +1,17 @@
 [camundaconfig]
 CAMUNDA_ENGINE_URL = "https://8c34-2402-d000-a400-1510-65fd-dc97-ef93-6dab.in.ngrok.io/engine-rest/process-definition"
-DEFINITION_IDS = [ { evenetType = "ADD_USER", ID ="Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844"}, 
-          { evenetType = "Role Add", ID ="Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844"},
-          { evenetType = "User Update", ID ="Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844"}
-           ]
+# DEFINITION_IDS = [ { evenetType = "ADD_USER", ID ="Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844"}, 
+#           { evenetType = "Role Add", ID ="Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844"},
+#           { evenetType = "User Update", ID ="Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844"}
+#            ]
 
-# [[camundaID]]
-# eventType= "ADD_USER"
-# ID="Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844"
+[[camundaID]]
+eventType= "ADD_USER"
+ID="Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844"
 
-# [[camundaID]]
-# eventType= "Role Add"
-# ID="Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844"
+[[camundaID]]
+eventType= "Role Add"
+ID="Useradd:1:3ff03477-c970-11ed-9db5-9e29762f7844"
 
 
 # [camundaID]
