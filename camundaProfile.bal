@@ -17,8 +17,8 @@ type CamundaOutputType record {
 };
 
 type DefinitionID record {
-    string evenetType?;
-    string ID;
+    string workflowName ?;
+    string processDefinitionID;
 };
 
 type CamundaConfig record {|
@@ -27,7 +27,7 @@ type CamundaConfig record {|
 |};
 
 configurable CamundaConfig camundaconfig = ?;
-configurable DefinitionID[] camundaID = ?;
+configurable DefinitionID[] camundaWorkflowConfigs = ?;
 
 distinct service class CamundaService {
 
@@ -40,7 +40,7 @@ distinct service class CamundaService {
     function init() {
         self.engineURL = camundaconfig.CAMUNDA_ENGINE_URL;
 
-        self.definitionIDs = camundaID;
+        self.definitionIDs = camundaWorkflowConfigs;
     }
 
     # Description
@@ -51,8 +51,8 @@ distinct service class CamundaService {
         string evenType = workflowRequestType.eventType;
         string workflowDefinitionID = "";
         foreach var item in self.definitionIDs {
-            if (item["evenetType"] == evenType) {
-                workflowDefinitionID = item["ID"];
+            if (item["workflowName"] == evenType) {
+                workflowDefinitionID = item["processDefinitionID"];
                 break;
             }
 
