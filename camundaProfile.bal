@@ -48,10 +48,10 @@ distinct service class CamundaService {
     # + workflowRequestType - Parameter Description
     # + return - Return Value Description
     public function workflowInitializer(WorkflowRequestType workflowRequestType) returns any?|error {
-        string evenType = workflowRequestType.eventType;
+        string workflowName = workflowRequestType.workflowName;
         string workflowDefinitionID = "";
         foreach var item in self.definitionIDs {
-            if (item["workflowName"] == evenType) {
+            if (item["workflowName"] == workflowName) {
                 workflowDefinitionID = item["processDefinitionID"];
                 break;
             }

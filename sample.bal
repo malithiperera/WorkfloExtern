@@ -20,7 +20,7 @@ type WorkflowRequestTypeVarible record {
 
 type WorkflowRequestType record {
     string processDefinitionId;
-    string eventType;
+    string workflowName;
     WorkflowRequestTypeVarible[] variables;
 };
 configurable CallBackConfig callbackconfig = ?;
