@@ -17,7 +17,7 @@ type CamundaOutputType record {
 };
 
 type DefinitionID record {
-    string workflowName ?;
+    string workflowID ?;
     string processDefinitionID;
 };
 
@@ -48,10 +48,10 @@ distinct service class CamundaService {
     # + workflowRequestType - Parameter Description
     # + return - Return Value Description
     public function workflowInitializer(WorkflowRequestType workflowRequestType) returns any?|error {
-        string workflowName = workflowRequestType.workflowName;
+        string workflowID = workflowRequestType.workflowID;
         string workflowDefinitionID = "";
         foreach var item in self.definitionIDs {
-            if (item["workflowName"] == workflowName) {
+            if (item["workflowID"] == workflowID) {
                 workflowDefinitionID = item["processDefinitionID"];
                 break;
             }
