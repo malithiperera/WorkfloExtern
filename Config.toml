@@ -1,5 +1,5 @@
 [camundaconfig]
-CAMUNDA_ENGINE_URL = "https://0bfb-2402-d000-a400-a3a3-9155-9505-2eaa-cf27.in.ngrok.io/engine-rest/process-definition"
+CAMUNDA_ENGINE_URL = "https://bf81-2402-d000-a400-3bab-604d-c323-f004-c281.in.ngrok.io/engine-rest/process-definition"
 
 [[camundaWorkflowConfigs]]
 workflowID= "5896610a-4039-4c09-a843-c3027cf8272e"
@@ -23,6 +23,6 @@ BPMN_ENGINE_URL = "http://localhost:9763/api/server/v1/workflow/"
 
 
 [callbackconfig]
-CALLBACK_END_POINT = "https://455d-2402-d000-a400-6179-f4b7-ab4b-fc4e-652d.in.ngrok.io/api/server/v1/workflow/"
+CALLBACK_END_POINT = "https://c8bd-2402-d000-a400-3bab-604d-c323-f004-c281.in.ngrok.io/api/server/v1/workflow/"
 
 
